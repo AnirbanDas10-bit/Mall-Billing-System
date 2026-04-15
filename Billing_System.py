@@ -123,7 +123,7 @@ def generate_pdf(customer, cart, total):
     pdf.set_text_color(229, 9, 20)
     pdf.cell(45, 12, f"INR {total:.2f}", 1, 1, 'C')
 
-    return pdf.output(dest='S')
+    return pdf.output()
 
 
 # --- Main App Logic ---
@@ -200,10 +200,12 @@ def main():
                 st.write(f"## Total: INR {grand_total:.2f}")
 
                 # PDF Action
+                
                 pdf_data = generate_pdf(st.session_state.cust, st.session_state.cart, grand_total)
+                pdf_bytes = bytes(pdf_data)
                 st.download_button(
                     label="📥 Print PDF Receipt",
-                    data=pdf_data,
+                    data=pdf_bytes,
                     file_name=f"Receipt_{st.session_state.cust['customer_name']}.pdf",
                     mime="application/pdf"
                 )
